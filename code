@@ -1,0 +1,97 @@
+// -----------------
+// Read temperature
+// -----------------
+
+// Create a variable that will store the temperature value
+int temperature = 0;
+double analogvalue = 0;
+double temp = 0;
+int light = 0;
+
+void setup()
+{
+  // Register a Spark variable here
+  Spark.variable("temperature", &temperature,INT);
+  Spark.variable("light", &light,INT);
+
+  // Connect the temperature sensor to A7 and configure it
+  // to be an input
+  pinMode(A7, INPUT);
+  pinMode(A0, INPUT);
+  pinMode(D0, OUTPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
+  pinMode(D3, OUTPUT);
+  pinMode(D4, OUTPUT);
+}
+
+void loop()
+{
+  // Keep reading the temperature so when we make an API
+  // call to read its value, we have the latest one
+  // Calulaate out Temperature
+  analogvalue = analogRead(A7);
+  temperature = ((((analogvalue * 3.3)/4095) -0.50) *100);
+  
+  // Calculate out Light
+  temp = analogRead(A0);
+  light = ((temp/4095)*100);
+  
+  
+  if (temperature <= 5)
+    { 
+        digitalWrite(D0, LOW);
+        digitalWrite(D1, LOW);  
+        digitalWrite(D2, LOW);  
+        digitalWrite(D3, LOW);
+        digitalWrite(D4, LOW);
+    }
+  if (temperature > 5 && temperature <= 10)
+    { 
+        digitalWrite(D0, HIGH);
+        digitalWrite(D1, LOW);  
+        digitalWrite(D2, LOW);  
+        digitalWrite(D3, LOW);
+        digitalWrite(D4, LOW);
+    }
+   if (temperature > 10 && temperature <= 15)
+    { 
+        digitalWrite(D0, HIGH);
+        digitalWrite(D1, HIGH);  
+        digitalWrite(D2, LOW);  
+        digitalWrite(D3, LOW);
+        digitalWrite(D4, LOW);
+    }
+   if (temperature > 15 && temperature <= 20)
+    { 
+        digitalWrite(D0, HIGH);
+        digitalWrite(D1, HIGH);  
+        digitalWrite(D2, HIGH);  
+        digitalWrite(D3, LOW);
+        digitalWrite(D4, LOW);
+    }
+   if (temperature > 20 && temperature <= 30)
+    { 
+        digitalWrite(D0, HIGH);
+        digitalWrite(D1, HIGH);  
+        digitalWrite(D2, HIGH);  
+        digitalWrite(D3, HIGH);
+        digitalWrite(D4, LOW);
+    }
+    if (temperature > 30)
+    { 
+        digitalWrite(D0, HIGH);
+        digitalWrite(D1, HIGH);  
+        digitalWrite(D2, HIGH);  
+        digitalWrite(D3, HIGH);
+        digitalWrite(D4, HIGH);
+    }    
+    
+  // update MET WebSite     
+    
+    
+    Delay (5000);
+  // digitalWrite(LED, HIGH);  
+}
+
+
